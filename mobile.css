@@ -1,0 +1,110 @@
+/* Keep the host's controls outside the game header and modal content. */
+:root{--safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px)}
+:root.taptap-host{--safe-top:max(env(safe-area-inset-top,0px),var(--host-safe-top,0px),clamp(96px,11dvh,112px))}
+html,body{height:100%;overflow:hidden}
+.app{
+  --header-clearance:calc(var(--safe-top) + var(--top-inset,0px));
+  height:100dvh;min-height:0;padding-top:var(--header-clearance);
+  background:linear-gradient(var(--shell-fill) 0 var(--header-clearance),var(--paper) var(--header-clearance))
+}
+.app>.header,.app>.stats,.app>.service-strip,.app>.nav{flex:none}
+.app>main{min-width:0;min-height:0;overflow:auto;overscroll-behavior:contain}
+.app.street-active>main{overflow:hidden}
+.street-active .stats{padding:4px 7px 3px}
+.title-screen{position:relative;min-height:100%;padding-top:clamp(16px,4dvh,36px);padding-bottom:max(16px,var(--safe-bottom))}
+.title-audio{position:absolute;top:clamp(16px,4dvh,36px);right:16px;background:var(--dark)}
+.title-screen .title-lockup h2{font-size:clamp(29px,9vw,48px)}
+.title-slots b{font-size:13px}
+.title-slots small{overflow-wrap:anywhere}
+.dialog{inset-block:calc(var(--safe-top) + 12px) calc(var(--safe-bottom) + 12px);margin:auto;max-height:calc(100dvh - var(--safe-top) - var(--safe-bottom) - 24px);overflow:auto;overscroll-behavior:contain}
+
+/* Match feet, wheels, and furniture to the paved part of the street. */
+.street-world{--cart-size:min(47cqw,54cqh,212px);--cart-ground:clamp(45%,calc(74cqh - 88px),54%);--counter-top:calc(var(--cart-ground) - 9cqh)}
+.street-cart{width:var(--cart-size);height:var(--cart-size);object-position:center bottom;top:var(--cart-ground);left:51%;transform:translateY(-100%)}
+.street-owner{width:min(15cqw,17cqh,64px);height:min(18cqw,20cqh,78px);top:var(--cart-ground);left:47%;transform:translate(-50%,-100%);transform-origin:50% 100%;overflow:visible}
+.street-owner img{width:100%;height:100%;object-position:center bottom;transform:none}
+.street-world.working .street-owner{animation:owner-at-counter .8s alternate ease-in-out infinite}
+@keyframes owner-at-counter{to{transform:translate(-50%,-100%) rotate(4deg)}}
+.street-stove{top:var(--counter-top);left:71%;min-height:30px;max-width:46%;transform:translate(-50%,-50%);white-space:nowrap}
+.stove-hand{top:calc(var(--counter-top) + 2cqh);left:83%}
+.street-steam{top:calc(var(--cart-ground) - var(--cart-size)*.57);left:82%}
+.street-passers img,.street-passers img+img{width:min(10cqw,12cqh,43px);height:min(12cqw,15cqh,53px);top:auto;bottom:55%}
+.street-skip{top:8px;right:51px}
+.street-hud .street-volume{pointer-events:auto;width:34px;height:34px;background:var(--dark)}
+.street-canopy{top:calc(var(--cart-ground) - var(--cart-size)*.79);left:17%;width:43%;height:min(8cqw,7cqh)}
+.street-sign{top:calc(var(--cart-ground) - var(--cart-size)*.43);left:82%}
+.street-lanterns{top:calc(var(--cart-ground) - var(--cart-size)*.76);left:56%;width:34%}
+.street-deal{top:calc(var(--cart-ground) - var(--cart-size)*.40);left:50%}
+.street-lanterns img{width:min(6cqw,21px);height:min(7cqw,24px)}
+.fx-spark{left:75%!important;top:var(--counter-top)!important}
+.street-table{width:23%;max-width:115px;height:clamp(29px,min(17cqw,14cqh),70px)}
+.street-table .table-state,.street-table:is([data-kind=ready],[data-kind=eating],[data-kind=cooking],[data-kind=dirty]) .table-state{top:-15px;min-width:0}
+.street-table .table-number{bottom:-2px}
+.street-diners{position:absolute;inset:0;pointer-events:none}
+.street-diners .diner{position:absolute;width:min(10.5cqw,11cqh,46px);height:min(12cqw,12cqh,55px);bottom:0;object-position:center bottom}
+.street-diners.back .diner{bottom:44%;left:2%}
+.street-diners.back .diner-1{left:auto;right:2%;scale:-1 1}
+.street-diners.front .diner{bottom:-7%;left:-6%}
+.street-diners.front .diner-1{left:auto;right:-6%;scale:-1 1}
+.street-diners.front .diner:only-child{left:0}
+.street-party[data-pose=queue],.street-party[data-pose=packing],.street-party[data-pose=leaving]{width:min(18cqw,70px);height:clamp(37px,min(18cqw,18cqh),78px)}
+.street-party .visitor-person{width:63%;height:82%;left:18%;bottom:0}
+.street-party[data-pose=queue] .person-0{left:0}
+.street-party[data-pose=queue] .person-1{left:21%;bottom:0}
+.street-party[data-pose=queue] .person-2{left:37%;bottom:0}
+.street-party[data-pose=queue] .person-0:only-of-type{left:18%}
+.party-label{font-size:10px;min-width:32px;padding:2px 4px 3px}
+.street-worker{width:min(10cqw,10cqh,44px);height:min(14cqw,13cqh,63px)}
+.street-worker span{max-width:68px;text-overflow:ellipsis;overflow:hidden}
+.street-packing{min-height:31px;padding:4px 5px;transform:translate(-50%,-100%)}
+.future-table{height:min(26px,7cqh)}
+.street-delivery img{width:min(13cqw,53px);height:auto}
+
+/* Reserve a single line for the selected order without moving the tables. */
+.street-dock{display:grid;grid-template-areas:"help" "status" "toolbar"}
+#street-order{grid-area:status;position:relative;inset:auto;min-height:28px;display:flex;align-items:center;z-index:2}
+#street-order:empty{display:none}
+.street-status{grid-area:status;min-height:28px}
+.street-dock:has(#street-order:not(:empty)) .street-status{visibility:hidden}
+.order-peek{width:100%;padding:2px 4px;gap:3px;font-size:10px}
+.order-peek img{width:16px;height:16px}
+.order-peek button{min-height:24px;font-size:10px}
+#street-help{grid-area:help;position:relative;inset:auto;align-items:center;padding-bottom:2px;z-index:auto}
+#street-help:empty{display:none}
+#street-help>*{min-height:26px}
+.shift-toolbar{grid-area:toolbar}
+.shift-toolbar .live-controls button{min-width:0}
+.street-dock .live-controls .reward{white-space:nowrap;gap:2px}
+.street-active .toast{top:calc(var(--safe-top) + var(--top-inset,0px) + 96px);bottom:auto;width:max-content;max-width:min(86vw,330px)}
+
+/* Prevent long labels or uneven equipment descriptions from moving controls. */
+.equipment-grid .list-item{margin:0;grid-template-rows:1fr auto;padding:8px;min-width:0}
+.equipment-grid .list-item button{align-self:end;white-space:normal;min-height:38px}
+.rank-row{min-width:0}
+.rank-row b{min-width:0;overflow-wrap:anywhere}
+.rank-row strong{flex:none;white-space:nowrap}
+.rank-leader b,.rank-leader strong{overflow-wrap:anywhere}
+.rank-board .receipt-notes summary{padding-block:7px}
+.rank-banner>img{min-height:0}
+.welfare-board .calendar{grid-template-columns:repeat(4,minmax(0,1fr))}
+.welfare-board .calendar small{white-space:normal}
+.actions>*{min-width:0}
+.list-item>div:nth-child(2){min-width:0;overflow-wrap:anywhere}
+.nav button{min-width:0}
+@media(max-width:360px){
+  .app .panel{margin-inline:8px}
+  .title-tray{padding:8px}
+  .stats span{gap:3px}
+  .stats .icon{width:15px;height:15px}
+  .shift-toolbar .pause,.shift-toolbar .street-close{padding-inline:4px}
+  .shift-toolbar .reward .ad-symbol{width:13px;height:12px}
+  .service-strip .stock-meter{width:26px}
+  .forecast-day small{font-size:8px}
+  .forecast-day .icon{width:15px;height:15px}
+}
+@media(max-height:650px){
+  .street-active .stats span{padding-block:3px}
+  .street-active .nav button{min-height:44px}
+  .street-active .nav-icon{height:28px}
+  .street-active .nav-icon img{width:26px;height:26px}
+}

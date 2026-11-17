@@ -1,0 +1,12 @@
+.env
+.env.*
+node_modules/
+.DS_Store
+Thumbs.db
+Desktop.ini
+test-results/
+playwright-report/
+*.log
+*-self-test.png
+/完整制作Prompt.md
+/录屏对照.md
